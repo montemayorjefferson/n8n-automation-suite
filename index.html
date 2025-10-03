@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeff – Automation & Workflow Builder</title>
+    <meta name="description" content="Automation expert building n8n workflows and integrations that save teams hours each week. View projects, skills, and get in touch to automate your ops.">
+    <meta property="og:title" content="Jeff – Automation & Workflow Builder">
+    <meta property="og:description" content="n8n workflows, API integrations, and automation systems. Real projects and results.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="Hero.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jeff – Automation & Workflow Builder">
+    <meta name="twitter:description" content="n8n workflows, API integrations, and automation systems. Real projects and results.">
+    <link rel="preload" as="image" href="Hero.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00ff00;
+            letter-spacing: -2px;
+            font-family: monospace;
+            min-width: 100px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-work {
+            background: #0ea5e9;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-work:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Accessible focus states */
+        .btn-work:focus-visible,
+        .btn-primary:focus-visible,
+        .btn-secondary:focus-visible,
+        .icon-btn:focus-visible,
+        .read-more:focus-visible,
+        .contact-link:focus-visible {
+            outline: 2px solid #ef4444;
+            outline-offset: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 100px;
+            padding: 140px 60px 80px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(ellipse at top left, rgba(239, 68, 68, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom right, rgba(14, 165, 233, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            position: relative;
+            z-index: 1;
+            padding-right: 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(56px, 8vw, 96px);
+            font-weight: 700;
+            line-height: 1.30;
+            margin-bottom: 32px;
+            letter-spacing: -0.02em;
+        }
+
+        .title-line {
+            display: block;
+        }
+
+        .title-text {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-period {
+            color: #ef4444;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .hero-description {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #999;
+            margin-bottom: 40px;
+            max-width: 580px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .btn-primary {
+            background: #ef4444;
+            color: #fff;
+            padding: 16px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 16px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Stats */
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Platform Badges */
+        .platform-badges {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .platform-badge {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .platform-badge:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .badge-n8n { border-color: rgba(239, 68, 68, 0.3); color: #ff6b6b; }
+        .badge-make { border-color: rgba(139, 92, 246, 0.3); color: #a78bfa; }
+        .badge-zapier { border-color: rgba(251, 146, 60, 0.3); color: #fb923c; }
+
+        /* Hero Image Card */
+        .hero-image-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ff6b35 0%, #ef4444 50%, #dc2626 100%);
+            aspect-ratio: 3/4;
+            max-width: 520px;
+            margin-left: 60px;
+            box-shadow: 0 20px 60px rgba(239, 68, 68, 0.3);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.95;
+            mix-blend-mode: luminosity;
+        }
+
+        .availability-badge {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(220, 38, 38, 0.95);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+        }
+
+        .image-label h3 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .image-label p {
+            font-size: 20px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 120px 60px;
+            background: #0a0a0a;
+            position: relative;
+        }
+
+        .projects::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(239, 68, 68, 0.3), transparent);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-subtitle {
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .section-description {
+            font-size: 17px;
+            color: #888;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 20px 60px rgba(239, 68, 68, 0.2);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover .project-image::before {
+            opacity: 1;
+        }
+
+        .project-content {
+            padding: 32px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .project-tag {
+            padding: 4px 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #ef4444;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .project-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .project-card p {
+            color: #888;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            color: #0ea5e9;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 12px;
+            transition: color 0.2s ease;
+        }
+
+        .read-more:hover {
+            color: #38bdf8;
+            text-decoration: underline;
+        }
+
+        .link-secondary {
+            color: #9ca3af;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 12px;
+        }
+
+        .link-secondary:hover { text-decoration: underline; color: #ffffff; }
+
+        .project-stats {
+            display: flex;
+            gap: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .project-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .project-stat-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Capabilities Section */
+        .capabilities {
+            padding: 120px 60px;
+            background: #0a0a0a;
+        }
+
+        .section-title {
+            font-size: clamp(36px, 5vw, 52px);
+            text-align: center;
+            margin-bottom: 70px;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .capability-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px 32px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .capability-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .capability-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 28px;
+        }
+
+        .capability-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .capability-card p {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 120px 60px;
+            background: #0a0a0a;
+        }
+
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .contact-info {
+            max-width: 500px;
+        }
+
+        .contact h2 {
+            font-size: clamp(36px, 5vw, 52px);
+            margin-bottom: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-align: left;
+        }
+
+        .contact-description {
+            color: #888;
+            margin-bottom: 50px;
+            font-size: 17px;
+            text-align: left;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover .contact-link-icon {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .contact-link-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .contact-link-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .contact-link-value {
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .form-label .required {
+            color: #ef4444;
+            margin-left: 4px;
+        }
+
+        .form-input,
+        .form-textarea {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #555;
+        }
+
+        .form-textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .form-submit:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            padding: 50px 60px;
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                padding: 140px 40px 80px;
+            }
+
+            .container {
+                padding: 0 40px;
+            }
+
+            .hero-content {
+                padding-right: 0;
+            }
+
+            .hero-image-card {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .capabilities, .contact {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+
+            footer {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+
+            .projects {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            }
+
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 140px 24px 80px;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            .header-buttons .icon-btn {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .capabilities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-image {
+                height: 200px;
+            }
+
+            .capabilities, .contact {
+                padding: 80px 24px;
+            }
+
+            footer {
+                padding: 40px 24px;
+            }
+
+            .hero-stats {
+                gap: 30px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" id="logo">0000.</div>
+                <div class="header-buttons">
+                    <a href="#projects" class="btn-work">
+                        <span>💼</span>
+                        Projects
+                    </a>
+                    <a href="#capabilities" class="btn-work" style="background: transparent; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <span>⚡</span>
+                        Skills
+                    </a>
+                  
+                    <a href="#contact" class="icon-btn">💬</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container" style="display: contents;">
+            <div class="hero-content">
+                <h1>
+                    <span class="title-line">
+                        <span class="title-text">Automate</span><span class="title-period">.</span>
+                    </span>
+                    <span class="title-line">
+                        <span class="title-text">Integrate</span><span class="title-period">.</span>
+                    </span>
+                    <span class="title-line">
+                        <span class="title-text">Accelerate</span><span class="title-period">.</span>
+                    </span>
+                </h1>
+                <p class="hero-subtitle">Hi, I'm Jeff</p>
+                <p class="hero-description">
+                    A creative automation expert & workflow builder. I help businesses automate complex tasks and create smart, scalable systems using tools like Make.com, n8n, and APIs.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Projects Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1h+</span>
+                        <span class="stat-label">Hours Saved</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Client Satisfaction</span>
+                    </div>
+                </div>
+
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn-primary">
+                        View My Projects →
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        Get in Touch
+                    </a>
+                </div>
+                <div>
+                    <p class="badge-label">Expert in automation platforms</p>
+                    <div class="platform-badges">
+                        <span class="platform-badge badge-n8n">n8n.io</span>
+                        <span class="platform-badge badge-make">make.com</span>
+                        <span class="platform-badge badge-zapier">Zapier</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image-card">
+                <img src="Hero.png" alt="Profile" class="hero-image">
+                <div class="availability-badge">
+                    <span class="status-dot"></span>
+                    Available
+                </div>
+                <div class="image-overlay">
+                    <div class="image-label">
+                        <h3>n8n</h3>
+                        <p>Automation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Portfolio</p>
+                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-description">Explore my latest automation workflows and integration solutions that have helped businesses streamline operations and boost productivity.</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">📇</div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">Google Calendar</span>
+                            <span class="project-tag">Google Webhook</span>
+                            <span class="project-tag">CRM</span>
+                        </div>
+                        <h3>Kevin Dashboard – CRM Automation</h3>
+                        <p>Calendar-triggered CRM updates and data sync. Automates follow-ups and dashboard updates from Google Calendar events.</p>
+                        <a class="read-more" aria-label="Read more about Kevin Dashboard – CRM Automation" href="https://github.com/montemayorjefferson/n8n-automation-suite/tree/main/n8n-crm-automation" target="_blank" rel="noopener">Read more →</a>
+                        <a class="link-secondary" aria-label="View JSON for Kevin Dashboard" href="https://github.com/montemayorjefferson/n8n-automation-suite/blob/main/n8n-crm-automation/Kevin-Dashboard.json" target="_blank" rel="noopener">View JSON</a>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>⏱️</span>
+                                <span class="project-stat-value">15hrs</span> saved/week
+                            </div>
+                            <div class="project-stat">
+                                <span>📊</span>
+                                <span class="project-stat-value">85%</span> efficiency
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">📧</div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">Google Sheets</span>
+                            <span class="project-tag">Email</span>
+                        </div>
+                        <h3>Email Outreach Automation</h3>
+                        <p>Updates lead sheets and stamps first-contact dates automatically. Powers a consistent and trackable outreach pipeline.</p>
+                        <a class="read-more" aria-label="Read more about Email Outreach Automation" href="https://github.com/montemayorjefferson/n8n-automation-suite/tree/main/n8n-email-automation" target="_blank" rel="noopener">Read more →</a>
+                        <a class="link-secondary" aria-label="View JSON for Email Outreach Automation" href="https://github.com/montemayorjefferson/n8n-automation-suite/blob/main/n8n-email-automation/Ade_Technical_Analyst.json" target="_blank" rel="noopener">View JSON</a>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>⏱️</span>
+                                <span class="project-stat-value">12hrs</span> saved/week
+                            </div>
+                            <div class="project-stat">
+                                <span>📊</span>
+                                <span class="project-stat-value">90%</span> data accuracy
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🗂️</div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">Assistant</span>
+                            <span class="project-tag">Calendar</span>
+                        </div>
+                        <h3>Personal Manager Assistant</h3>
+                        <p>Centralized personal assistant that reads calendar events and maintains short-term memory to manage tasks and conversations.</p>
+                        <a class="read-more" aria-label="Read more about Personal Manager Assistant" href="https://github.com/montemayorjefferson/n8n-automation-suite/tree/main/n8n-personal-manager" target="_blank" rel="noopener">Read more →</a>
+                        <a class="link-secondary" aria-label="View JSON for Personal Manager Assistant" href="https://github.com/montemayorjefferson/n8n-automation-suite/blob/main/n8n-personal-manager/manager.json" target="_blank" rel="noopener">View JSON</a>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>⏱️</span>
+                                <span class="project-stat-value">8hrs</span> saved/week
+                            </div>
+                            <div class="project-stat">
+                                <span>📊</span>
+                                <span class="project-stat-value">99%</span> uptime
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🌐</div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">HTML</span>
+                        </div>
+                        <h3>Portfolio Automation</h3>
+                        <p>Automates portfolio content generation and updates via workflows. Keeps your public work up-to-date with zero manual effort.</p>
+                        <a class="read-more" aria-label="Read more about Portfolio Automation" href="https://github.com/montemayorjefferson/n8n-automation-suite/tree/main/n8n-portfolio-automation" target="_blank" rel="noopener">Read more →</a>
+                        <a class="link-secondary" aria-label="View HTML for Portfolio Automation" href="https://github.com/montemayorjefferson/n8n-automation-suite/blob/main/n8n-portfolio-automation/Portfolio.html" target="_blank" rel="noopener">View HTML</a>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>⏱️</span>
+                                <span class="project-stat-value">5hrs</span> saved/week
+                            </div>
+                            <div class="project-stat">
+                                <span>📊</span>
+                                <span class="project-stat-value">100%</span> reliability
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">📈</div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">AI</span>
+                            <span class="project-tag">Trading</span>
+                        </div>
+                        <h3>AI Technical Analyst (Ade)</h3>
+                        <p>Agentic stock analysis workflow with chart retrieval and multi-step reasoning to deliver buy/sell/hold insights.</p>
+                        <a class="read-more" aria-label="Read more about AI Technical Analyst (Ade)" href="https://github.com/montemayorjefferson/n8n-automation-suite/tree/main/n8n-stack-trader" target="_blank" rel="noopener">Read more →</a>
+                        <a class="link-secondary" aria-label="View JSON for AI Technical Analyst" href="https://github.com/montemayorjefferson/n8n-automation-suite/blob/main/n8n-stack-trader/AI%20Trader.json" target="_blank" rel="noopener">View JSON</a>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>⏱️</span>
+                                <span class="project-stat-value">10hrs</span> saved/week
+                            </div>
+                            <div class="project-stat">
+                                <span>📊</span>
+                                <span class="project-stat-value">92%</span> satisfaction
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">📣</div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">Social</span>
+                            <span class="project-tag">Trends</span>
+                        </div>
+                        <h3>Trending Social Media Poster</h3>
+                        <p>Pulls Google Trends and auto-posts content to X, Facebook, and LinkedIn with scheduling and formatting.</p>
+                        <a class="read-more" aria-label="Read more about Trending Social Media Poster" href="https://github.com/montemayorjefferson/n8n-automation-suite/tree/main/n8n-trending-media" target="_blank" rel="noopener">Read more →</a>
+                        <a class="link-secondary" aria-label="View JSON for Trending Social Media Poster" href="https://github.com/montemayorjefferson/n8n-automation-suite/blob/main/n8n-trending-media/Social%20Media%20Posting.json" target="_blank" rel="noopener">View JSON</a>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>⏱️</span>
+                                <span class="project-stat-value">6hrs</span> saved/week
+                            </div>
+                            <div class="project-stat">
+                                <span>📊</span>
+                                <span class="project-stat-value">95%</span> coverage
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">✍️</div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">WordPress</span>
+                            <span class="project-tag">OpenAI</span>
+                        </div>
+                        <h3>WordPress Article Automation</h3>
+                        <p>Researches, drafts, and publishes SEO-friendly articles to WordPress with images and metadata end-to-end.</p>
+                        <a class="read-more" aria-label="Read more about WordPress Article Automation" href="https://github.com/montemayorjefferson/n8n-automation-suite/tree/main/n8n-wordpress-blog" target="_blank" rel="noopener">Read more →</a>
+                        <a class="link-secondary" aria-label="View JSON for WordPress Article Automation" href="https://github.com/montemayorjefferson/n8n-automation-suite/blob/main/n8n-wordpress-blog/Article_Automation%202%20(1).json" target="_blank" rel="noopener">View JSON</a>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>⏱️</span>
+                                <span class="project-stat-value">10hrs</span> saved/week
+                            </div>
+                            <div class="project-stat">
+                                <span>📊</span>
+                                <span class="project-stat-value">100%</span> publish rate
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="capabilities" id="capabilities">
+        <div class="container">
+            <h2 class="section-title">Automation Capabilities</h2>
+            <div class="capabilities-grid">
+                <div class="capability-card">
+                    <div class="capability-icon">⚡</div>
+                    <h3>n8n Workflow Automation</h3>
+                    <p>Expert Workflow Builder specializing in complex automation scenarios</p>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-icon">🔗</div>
+                    <h3>API Integration</h3>
+                    <p>Seamless integration between multiple platforms and services</p>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-icon">📊</div>
+                    <h3>Data Processing</h3>
+                    <p>Advanced data transformation and manipulation workflows</p>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-icon">🎯</div>
+                    <h3>Webhook Management</h3>
+                    <p>Real-time event handling and webhook configuration</p>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-icon">🛠️</div>
+                    <h3>Custom n8n Nodes</h3>
+                    <p>Development of custom nodes for specific use cases</p>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-icon">💡</div>
+                    <h3>Automation Consulting</h3>
+                    <p>Strategic planning and optimization of automation workflows</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h2>Let's Work Together</h2>
+                    <p class="contact-description">Have a project in mind? Get in touch and let's create something amazing together.</p>
+                    
+                    <div class="contact-links">
+                        <a href="mailto:jeffersonmontemayor@gmail.com" class="contact-link">
+                            <div class="contact-link-icon">📧</div>
+                            <div class="contact-link-text">
+                                <span class="contact-link-label">Email</span>
+                                <span class="contact-link-value">jeffersonmontemayor@gmail.com</span>
+                            </div>
+                        </a>
+    
+                        
+                        <a href="https://github.com/montemayorjefferson/n8n-automation-suite" class="contact-link" target="_blank">
+                            <div class="contact-link-icon">☕</div>
+                            <div class="contact-link-text">
+                                <span class="contact-link-label">Ko-fi</span>
+                                <span class="contact-link-value">ko-fi.com/n8n</span>
+                            </div>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                <form id="contactForm" class="contact-form" action="#" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Name <span class="required">*</span></label>
+                            <input id="name" name="name" type="text" class="form-input" placeholder="Your name" autocomplete="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email <span class="required">*</span></label>
+                            <input id="email" name="email" type="email" class="form-input" placeholder="your@email.com" autocomplete="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label class="form-label">Subject <span class="required">*</span></label>
+                        <input id="subject" name="subject" type="text" class="form-input" placeholder="Project inquiry" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label class="form-label">Message <span class="required">*</span></label>
+                        <textarea id="message" name="message" class="form-textarea" rows="6" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="form-submit">
+                        Send Message ✈️
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Jeff - Automation & Workflow Builder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    // Binary animation for logo (JEFF in binary)
+    const binarySequence = ['01001010', '01000101', '01000110', '01000110'];
+    const textSequence = ['J', 'E', 'F', 'F'];
+    let currentIndex = 0;
+    let currentState = 'binary';
+    const logo = document.getElementById('logo');
+    
+    function animateLogo() {
+      if (currentState === 'binary') {
+        const binary = binarySequence[currentIndex];
+        let digitIndex = 0;
+        const digitInterval = setInterval(() => {
+          if (digitIndex < binary.length) {
+            logo.textContent = binary.substring(0, digitIndex + 1);
+            logo.style.letterSpacing = '2px';
+            digitIndex++;
+          } else {
+            clearInterval(digitInterval);
+            setTimeout(() => {
+              logo.textContent = textSequence[currentIndex] + '.';
+              logo.style.letterSpacing = '-2px';
+              currentState = 'text';
+              setTimeout(() => {
+                currentState = 'binary';
+                currentIndex = (currentIndex + 1) % binarySequence.length;
+                animateLogo();
+              }, 800);
+            }, 400);
+          }
+        }, 50);
+      }
+    }
+    setTimeout(animateLogo, 1000);
+    
+    // Contact form mailto submission
+    const form = document.getElementById('contactForm');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const subject = document.getElementById('subject').value.trim() || 'Project inquiry';
+        const message = document.getElementById('message').value.trim();
+
+        if (!name || !email || !message) {
+          alert('Please fill in your Name, Email, and Message.');
+          return;
+        }
+
+        const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${encodeURIComponent(message)}`;
+        const mailto = `mailto:jeffersonmontemayor@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+        window.location.href = mailto;
+      });
+    }
+    </script>
+</body>
+</html>
