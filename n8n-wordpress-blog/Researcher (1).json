@@ -1,0 +1,542 @@
+{
+  "name": "Researcher",
+  "nodes": [
+    {
+      "parameters": {
+        "toolDescription": "Call this tool to search the on google to get more trending information",
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "AIzaSyAWe3wdIJ6x2eeUwAmo-nFvggsY4rPr1bU"
+            },
+            {
+              "name": "cx",
+              "value": "07a548da332534bb2"
+            },
+            {
+              "name": "q",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        944,
+        240
+      ],
+      "id": "92326a08-8702-4e41-9510-4b4c1606ffd9",
+      "name": "Google search engine"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d992b578-0a3e-4a46-98aa-9859a814f88f",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "04f6756c-0c67-46e4-bf3f-a0a2f2455f9a",
+              "name": "blog",
+              "value": "={{ $json.blog_sections }}",
+              "type": "string"
+            },
+            {
+              "id": "c7603499-eeeb-461e-a30e-fd735e72df9c",
+              "name": "image_prompt_hero",
+              "value": "={{ $json.image_prompt_hero }}",
+              "type": "string"
+            },
+            {
+              "id": "3ecf98e8-ec83-4b23-93ae-60f9ee641790",
+              "name": "image_prompt_mid",
+              "value": "={{ $json.image_prompt_mid }}",
+              "type": "string"
+            },
+            {
+              "id": "79fe3571-d50c-40bb-b130-924ea2df77eb",
+              "name": "image_prompt_bottom",
+              "value": "={{ $json.image_prompt_bottom }}",
+              "type": "string"
+            },
+            {
+              "id": "12a3ffed-9d9c-4060-b0cf-9e79927e8a78",
+              "name": "keyword",
+              "value": "={{ $json.keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "15956afd-fe9d-41c4-abaf-7014a30d2480",
+              "name": "meta_description",
+              "value": "={{ $json.meta_description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        48
+      ],
+      "id": "7cb83cd3-3623-4bdc-b0b0-30bcc54ea1dd",
+      "name": "Format"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fe18b314-89df-40d1-bb3f-59c0d7206c83",
+              "name": "query",
+              "value": "=={{ $('When Executed by Another Workflow').item.json.query }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        80
+      ],
+      "id": "0381cb36-d89b-4a33-aebb-88e58dd4b3f4",
+      "name": "Query"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -112,
+        80
+      ],
+      "id": "51224c9a-9738-41be-8336-2fec9d5fc7cf",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "=THIS SHOULD BE THE OUTPUT:\n{\n  \"title\": \"Clear, informative headline about insurance trends (50-70 chars)\",\n  \"blog_sections\": [\n    {\n      \"heading\": \"Opening: Why Insurance Trends Matter\",\n      \"content\": \"<p>2–3 paragraphs of introduction with <p> and <strong> tags...</p>\"\n    },\n    {\n      \"heading\": \"The Evolution of Insurance Coverage in 2025\",\n      \"content\": \"<h2>The Evolution of Insurance Coverage in 2025</h2><p>150–250 words...</p>\"\n    },\n    {\n      \"heading\": \"Digital Transformation and Insurtech Innovations\",\n      \"content\": \"<h2>Digital Transformation and Insurtech Innovations</h2><p>150–250 words...</p>\"\n    },\n    {\n      \"heading\": \"Consumer Protection and Policy Transparency\",\n      \"content\": \"<h2>Consumer Protection and Policy Transparency</h2><p>150–250 words...</p>\"\n    },\n    {\n      \"heading\": \"Conclusion: Future Outlook\",\n      \"content\": \"<h2>Conclusion</h2><p>Key takeaways, next steps, strong closing...</p>\"\n    }\n  ],\n  \"image_prompt_hero\": \"Professional hero image for article top - insurance-themed, modern, trustworthy\",\n  \"image_prompt_mid\": \"Supporting visual for middle section - trend visualization, professional and clear\",\n  \"image_prompt_bottom\": \"Conclusive image for article ending - forward-looking insurance concept, professional\",\n  \"keyword\": \"Main SEO keyword extracted from insurance trends\",\n  \"meta_description\": \"Clear 150-160 character description highlighting article value for insurance consumers\"\n}\n\nYou are an Insurance Industry Expert and Professional Content Writer with deep knowledge of insurance trends, consumer needs, and industry insights. You create authoritative, educational content that helps readers make informed decisions. You must return valid JSON responses only.\nTransform the following insurance trend analysis into a comprehensive, informative blog post that educates readers and establishes thought leadership in the insurance space.\nCRITICAL REQUIREMENTS:\n\nWORD COUNT: Write 1500-1700 words\n\nThis is approximately 8-12 paragraphs of substantial content\nCount carefully to hit this target\nEach paragraph should be 2-5 sentences\n\n\nHEADLINE:\n\nClear, informative, and value-focused\n50-70 characters that communicate the article's benefit\nInclude main keyword naturally\nThink: expert guidance meets reader value\n\n\nCONTENT STRUCTURE:\n\nOpening (2-3 paragraphs): Establish relevance and explain why this matters to readers\n5-7 body sections with clear, descriptive H2 subheaders containing keywords\nEach section: 150-250 words with actionable insights and data\nClosing section: Strong conclusion with key takeaways and next steps\n\n\nWRITING STYLE - PROFESSIONAL & INFORMATIVE:\n\nAuthoritative yet accessible voice that builds trust\nClear explanations of complex insurance concepts\nUse professional terminology: emerging trends, market dynamics, coverage options, policy innovations, consumer protection, risk management\nProvide context and background for industry changes\nBalance data-driven insights with practical applications\nMake readers feel informed and empowered\nEducational tone that respects reader intelligence\n\n\nINSURANCE TREND ANALYSIS INTEGRATION:\n\nIncorporate latest insurance trends as of {{ new Date($today).toLocaleString(\"default\", { month: \"long\", year: \"numeric\" }) }}\nInclude key insights, metrics, and industry data\nReference: insurtech innovations, digital transformation, policy changes, coverage trends\nHighlight emerging patterns and consumer behavior insights\nPresent statistics and research findings clearly\nExplain implications for consumers and the industry\n\n\nSEO OPTIMIZATION:\n\nExtract and use main insurance-related keyword strategically (1-2% density = 15-30 times)\nInclude keyword in: title, first paragraph, subheaders, naturally throughout, conclusion\nUse LSI keywords organically: insurance coverage, premiums, policy, claims, insurtech, protection, risk, benefits\nCreate scannable content with clear hierarchy\n\n\nVALUE-DRIVEN CONTENT:\n\nFocus on answering reader questions and solving problems\nProvide actionable advice and practical tips\nInclude expert recommendations\nExplain \"why\" behind trends and changes\nHelp readers understand how trends affect them personally\n\n\nHTML FORMATTING:\n\nUse <h2> for clear, descriptive subheaders\n\n<p> tags for all paragraphs\n\n<strong> for emphasis on key insights and important points\nKeep formatting clean and professional\nNo emojis or special characters\n\n\nCONTENT DEPTH:\n\nInclude multiple perspectives on insurance trends\nAdd historical context where relevant\nExplore implications for different types of consumers\nReference industry research, studies, and expert opinions\nProvide comprehensive coverage of the topic\n\n\nIMAGE PROMPTS:\n\nProfessional, clean, modern aesthetic\nInsurance-themed: policies, digital interfaces, family protection, security concepts\nBusiness and technology focused\nInclude: clear lighting, professional composition, trustworthy appearance\nShould convey expertise and reliability\n\n\n\nInput Insurance Trend Research:\n{{ $json.output }}\n\nFocus Keywords to Integrate:\n{{ $('Get 1-2 Random Keywords').first().json.keywordString }}\n\nKEYWORD INTEGRATION FROM GOOGLE SHEETS:\n- Required keywords to naturally incorporate: {{ $('Get 1-2 Random Keywords').first().json.keywordString }}\n- Use at least 5-7 of these keywords throughout the article\n- Include 2-3 keywords in H2 subheaders\n- Mention keywords in first and last paragraphs\n- Maintain natural, readable flow - no forced placement\n\n⚠️ CRITICAL: Return ONLY valid JSON following this exact schema.\nNo explanations, markdown code blocks, or extra text outside the JSON.\nEnsure the blog is EXACTLY 1500 words.\n\n⚠️ Important: Return ONLY valid JSON in this schema.\nNo explanations, markdown, or extra text.\n\n⚠️ Important: Make sure that the blog body is 1500 words or more.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        48
+      ],
+      "id": "8348f2ef-38dc-42d3-aa97-b01702bb6c41",
+      "name": "Researcher"
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-3.5-sonnet",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        800,
+        240
+      ],
+      "id": "e221f539-c70f-402f-97e8-7bb95991fdb5",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "S5ht3ikb4AtpL1mj",
+          "name": "Open Router"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Trigger Node\nThis is the trigger node that starts the workflow when called from your main workflow or scheduler.",
+        "height": 608,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -192,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "b95348cc-d199-4ad1-b934-1cb947f5364e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Reads Insurance keywords from Google Sheets\nConfiguration:\n- Operation: Get row(s) in sheet\n- Sheet: subject and key terms\n- Range: A2:B2 (or use filters: Subject = Insurance)",
+        "height": 608,
+        "width": 592,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "98379280-809b-4ee8-91f8-ee9a1b61ec60",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Researcher\nMain AI research node that:\n- Uses OpenRouter/Claude to analyze insurance trends\n- Searches web via Google Custom Search\n- Incorporates the selected keywords naturally\n- Returns comprehensive insurance trend analysis\n\nOutput: Research content ready for formatting.\n",
+        "height": 608,
+        "width": 496,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        720,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "9d258c90-040a-46ea-953a-6ca0e432db8a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        240
+      ],
+      "id": "5578f787-c9f1-4c29-904f-f557ceefece0",
+      "name": "Further more information"
+    },
+    {
+      "parameters": {
+        "content": "## Format \nJavaScript code that:\n1. Parses the Researcher JSON output\n2. Extracts: title, blog, image prompts, keyword, meta_description\n3. Handles any parsing errors gracefully\n4. Outputs clean structured data for next steps",
+        "height": 608,
+        "width": 192
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1232,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "f340bb72-099a-4b6c-b606-de4a276a90ce",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Delete used keywords",
+        "height": 608,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1440,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "932be3ba-4c1d-4743-9277-56fb9cbbc243",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OFqUT89xU7-Zkv3LQFlTEyilNbSrXfGfPFb_-ChphgA",
+          "mode": "list",
+          "cachedResultName": "Website Subjects",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OFqUT89xU7-Zkv3LQFlTEyilNbSrXfGfPFb_-ChphgA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1782137352,
+          "mode": "list",
+          "cachedResultName": "subject and key terms ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OFqUT89xU7-Zkv3LQFlTEyilNbSrXfGfPFb_-ChphgA/edit#gid=1782137352"
+        },
+        "combineFilters": "OR",
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "A1:B2"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        80
+      ],
+      "id": "2e3335aa-31de-49b5-a0cc-1ebe1b38579a",
+      "name": "Get Keywords",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SqLJAkpuZNCtRzT7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1OFqUT89xU7-Zkv3LQFlTEyilNbSrXfGfPFb_-ChphgA",
+          "mode": "list",
+          "cachedResultName": "Website Subjects",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OFqUT89xU7-Zkv3LQFlTEyilNbSrXfGfPFb_-ChphgA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1782137352,
+          "mode": "list",
+          "cachedResultName": "subject and key terms ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OFqUT89xU7-Zkv3LQFlTEyilNbSrXfGfPFb_-ChphgA/edit#gid=1782137352"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Key terms": "={{ $('Get 1-2 Random Keywords').first().json.remainingKeywords }}",
+            "row_number": 2,
+            "Subject": "Insurance"
+          },
+          "matchingColumns": [
+            "Subject"
+          ],
+          "schema": [
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Key terms",
+              "displayName": "Key terms",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        80
+      ],
+      "id": "20e47f8a-60b4-4132-9cbb-ee8effaacf70",
+      "name": "Delete used keywords",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SqLJAkpuZNCtRzT7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the Insurance row data from Google Sheets\nconst row = $input.first().json;\n\n// Get keywords from column B (Key terms)\nconst insuranceKeywords = row['Key terms'] || row.B || '';\n\nif (!insuranceKeywords) {\n  return [{\n    json: {\n      error: 'No keywords found',\n      selectedKeywords: [],\n      keywordString: '',\n      remainingKeywords: ''\n    }\n  }];\n}\n\n// Split by comma to get complete keyword phrases\nconst allKeywords = insuranceKeywords\n  .split(',')\n  .map(k => k.trim())\n  .filter(k => k.length > 0);\n\nif (allKeywords.length === 0) {\n  return [{\n    json: {\n      error: 'No valid keywords after parsing',\n      selectedKeywords: [],\n      keywordString: '',\n      remainingKeywords: ''\n    }\n  }];\n}\n\n// Select 5-10 random complete keyword phrases\nconst numKeywords = Math.min(\n  Math.floor(Math.random() * 2) + 1,\n  allKeywords.length\n);\n\nconst selectedKeywords = [];\nconst usedIndices = [];\n\nwhile (selectedKeywords.length < numKeywords) {\n  const randomIndex = Math.floor(Math.random() * allKeywords.length);\n  if (!usedIndices.includes(randomIndex)) {\n    selectedKeywords.push(allKeywords[randomIndex]);\n    usedIndices.push(randomIndex);\n  }\n}\n\n// Keep remaining keywords\nconst remainingKeywords = allKeywords.filter((k, i) => !usedIndices.includes(i));\n\nreturn [{\n  json: {\n    selectedKeywords: selectedKeywords,\n    keywordString: selectedKeywords.join(', '),\n    remainingKeywords: remainingKeywords.join(', ')\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        80
+      ],
+      "id": "999e634e-1a6b-498c-a0f4-8b0504bca68d",
+      "name": "Get 1-2 Random Keywords"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let raw = $input.item.json.output || \"\";\n\n// Remove markdown fences if present\nraw = raw.replace(/```json|```/g, \"\").trim();\n\n// Extract JSON object from text if wrapped\nlet jsonMatch = raw.match(/\\{[\\s\\S]*\\}/);\nif (jsonMatch) {\n  raw = jsonMatch[0];\n}\n\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n} catch (e) {\n  console.log(\"Parse error:\", e.message);\n  parsed = {};\n}\n\n// If blog_sections exists, slice by sections directly\nlet sections = [];\nif (Array.isArray(parsed.blog_sections)) {\n  sections = parsed.blog_sections.map((s, i) => ({\n    index: i + 1,\n    heading: s.heading || `Section ${i+1}`,\n    content: s.content || \"\"\n  }));\n} else if (parsed.blog) {\n  // Fallback: split by <h2> if only a single blog string is given\n  sections = parsed.blog.split(/(?=<h2>)/).map((s, i) => ({\n    index: i + 1,\n    heading: `Section ${i+1}`,\n    content: s.trim()\n  }));\n}\n\nreturn {\n  json: {\n    title: parsed.title || \"Untitled\",\n    blog_sections: sections,   // structured array, easy to loop\n    image_prompt_hero: parsed.image_prompt_hero || \"No image prompt\",\n    image_prompt_mid: parsed.image_prompt_mid || \"No image prompt\",\n    image_prompt_bottom: parsed.image_prompt_bottom || \"No image prompt\",\n    keyword: parsed.keyword || \"insurance\",\n    meta_description: parsed.meta_description || \"\"\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        128
+      ],
+      "id": "9b3585f6-7845-4d61-908b-758bd8e006a7",
+      "name": "Splice"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google search engine": {
+      "ai_tool": [
+        [
+          {
+            "node": "Researcher",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query": {
+      "main": [
+        [
+          {
+            "node": "Researcher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Researcher": {
+      "main": [
+        [
+          {
+            "node": "Splice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Researcher",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format": {
+      "main": [
+        []
+      ]
+    },
+    "Further more information": {
+      "ai_tool": [
+        [
+          {
+            "node": "Researcher",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Keywords": {
+      "main": [
+        [
+          {
+            "node": "Get 1-2 Random Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get 1-2 Random Keywords": {
+      "main": [
+        [
+          {
+            "node": "Delete used keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete used keywords": {
+      "main": [
+        [
+          {
+            "node": "Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Splice": {
+      "main": [
+        [
+          {
+            "node": "Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "51405a61-76d3-4242-a49e-3c500096665b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c9bae4eb2d6ecb137138d77b89149cd1e76743b8fad40c919e1baab7af1f0ee2"
+  },
+  "id": "zeNvifV1YNDnw6QD",
+  "tags": []
+}

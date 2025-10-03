@@ -1,0 +1,1261 @@
+{
+  "name": "Article_Automation 2",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "000e3ddd-ca06-4113-9413-41f547afedc1",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "position": [
+        4272,
+        -16
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Data check",
+        "height": 372,
+        "width": 317,
+        "color": 4
+      },
+      "id": "7ca22b74-cc2d-4af1-8f79-557d3a77626e",
+      "name": "Sticky Note27",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4464,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Checks that the data returned by OpenAI is correct",
+        "height": 80,
+        "width": 289,
+        "color": 7
+      },
+      "id": "7b0a137c-aa5d-43fd-8b53-0c1909e02d78",
+      "name": "Sticky Note28",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4480,
+        -480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Starting from the given article details, title, blog, image prompt and meta data",
+        "height": 80,
+        "width": 287.370178643191,
+        "color": 7
+      },
+      "id": "5033ae2d-428e-4b2d-8ce8-52fa888b3276",
+      "name": "Sticky Note33",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3936,
+        -480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Article structure",
+        "height": 371,
+        "width": 360,
+        "color": 6
+      },
+      "id": "da7a8915-535f-4640-921f-7318f86dd315",
+      "name": "Sticky Note34",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3888,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Blog topic",
+        "height": 371,
+        "width": 432,
+        "color": 7
+      },
+      "id": "e4d0718c-16a6-4a6b-8e76-70a751fb13eb",
+      "name": "Sticky Note35",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3200,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "This call the researcher sub workflow",
+        "height": 80,
+        "width": 150,
+        "color": 7
+      },
+      "id": "a02fa0c6-a91d-4aa3-81be-abff5f305f55",
+      "name": "Sticky Note36",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3456,
+        -480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nUser is notified to try again since some data is missing",
+        "height": 288.4116890365125,
+        "width": 281.2716777103785,
+        "color": 7
+      },
+      "id": "4077cfec-6ee6-48e6-82af-e57d4d79258e",
+      "name": "Sticky Note39",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4736,
+        -96
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExtra reference for text humanizing",
+        "height": 275,
+        "width": 212,
+        "color": 7
+      },
+      "id": "3f24fc32-dfdc-450f-b5fb-511e86de97bc",
+      "name": "Sticky Note40",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4208,
+        -96
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Settings",
+        "height": 371,
+        "width": 211,
+        "color": 2
+      },
+      "id": "dae7b30d-9526-4cdd-a96b-71140fe72bd4",
+      "name": "Sticky Note41",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3664,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Set the URL of WordPress and setting details for parse",
+        "height": 80,
+        "width": 179.37633247508526,
+        "color": 7
+      },
+      "id": "4ece5e21-df27-4f95-996c-b6b751c35700",
+      "name": "Sticky Note42",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3680,
+        -480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Chapters",
+        "height": 370.512611879577,
+        "width": 225.47038972308582,
+        "color": 2
+      },
+      "id": "8ec8f230-9d98-4195-b0bf-c88017c89624",
+      "name": "Sticky Note43",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4800,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Combine all article parts into text",
+        "height": 80,
+        "width": 186,
+        "color": 7
+      },
+      "id": "999b70ee-588a-49c8-aea7-107ad17f56a5",
+      "name": "Sticky Note44",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4816,
+        -480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c07386d7-9f51-4052-a62d-500e9aff9336",
+              "name": "wordpress_url",
+              "type": "string",
+              "value": "https://pink-skunk-944793.hostingersite.com/"
+            },
+            {
+              "id": "84adb9d0-c8b2-4414-adc4-822270244c72",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "f91d4bf7-0ef7-4e30-827d-fe8c9a2b7b31",
+              "name": "blog",
+              "value": "={{ $json.blog }}",
+              "type": "string"
+            },
+            {
+              "id": "68802f8d-ddf7-45da-9518-4ba7fdc36485",
+              "name": "image_prompt_hero",
+              "value": "={{ $json.image_prompt_hero }}",
+              "type": "string"
+            },
+            {
+              "id": "2fbb9ecc-2fce-4146-bd50-c69e9a6b3f5b",
+              "name": "image_prompt_mid",
+              "value": "={{ $json.image_prompt_mid }}",
+              "type": "string"
+            },
+            {
+              "id": "c483073c-9ab6-4fc3-b7a6-55fad2337bdb",
+              "name": "image_prompt_bottom",
+              "value": "={{ $json.image_prompt_bottom }}",
+              "type": "string"
+            },
+            {
+              "id": "42aa78ae-2728-428f-a60b-2fd6e7dd05f9",
+              "name": "keyword",
+              "value": "={{ $json.keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "dfcae831-8dac-48e9-a13d-f5b9b843e4b3",
+              "name": "meta_description",
+              "value": "={{ $json.meta_description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e5ab2d5a-0b00-468d-8007-c66affc3dd8f",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        3728,
+        -336
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "9523cb70-8467-4e65-9ecf-65cb91c29cb7",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.title }}",
+              "rightValue": ""
+            },
+            {
+              "id": "79a60fc1-66f8-4cfc-a61b-de528dfb7978",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.keyword }}",
+              "rightValue": ""
+            },
+            {
+              "id": "338cd7e0-d2b8-40f4-838d-3aaf618268d2",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.image_prompt_mid }}",
+              "rightValue": ""
+            },
+            {
+              "id": "76eb9ba1-7675-403c-9287-ac1319791ffe",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.image_prompt_bottom }}",
+              "rightValue": ""
+            },
+            {
+              "id": "44c15c7d-14fd-455b-adbc-19f55ab793a3",
+              "leftValue": "={{ $json.meta_description }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "1ff516f4-91d8-4610-b987-22d5e0eb524b",
+              "leftValue": "={{ $json.meta_description }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "44bad076-e3cc-4977-a12e-5dde76c9e7a5",
+      "name": "Check data consistency",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        4592,
+        -336
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://pink-skunk-944793.hostingersite.com/wp-json/jwt-auth/v1/token",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username",
+              "value": "gmaturan60@gmail.com"
+            },
+            {
+              "name": "password",
+              "value": "Tear@1298"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5120,
+        -352
+      ],
+      "id": "1b80b489-d0a7-4d01-a75f-6fd1db588959",
+      "name": "Wordpress connect"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://pink-skunk-944793.hostingersite.com/wp-json/wp/v2/posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$('Wordpress connect').first().json.token}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Final article text').item.json.title }}"
+            },
+            {
+              "name": "content",
+              "value": "={{ $('Final article text').item.json.blog }}"
+            },
+            {
+              "name": "status",
+              "value": "publish"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5344,
+        -352
+      ],
+      "id": "5d468344-395a-4ba2-9603-ca7fc1db623c",
+      "name": "Post on Wordpress"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://pink-skunk-944793.hostingersite.com/wp-json/wp/v2/posts/{{ $('Post on Wordpress').item.json.id }}\n",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Wordpress connect').item.json.token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "eca11b32-de01-4617-820d-3fcc2b1c04dd",
+      "name": "Set image ID for the post",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        7104,
+        -368
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        3264,
+        -336
+      ],
+      "id": "be9e5f99-8dda-4c29-bbac-4a30ecc6ba7f",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "zeNvifV1YNDnw6QD",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/zeNvifV1YNDnw6QD",
+          "cachedResultName": "Researcher"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3472,
+        -336
+      ],
+      "id": "14e0bf9a-de72-47e2-a07f-8f4037898946",
+      "name": "Call sub workflow"
+    },
+    {
+      "parameters": {
+        "content": "Trigger everyday",
+        "height": 80,
+        "width": 150,
+        "color": 7
+      },
+      "id": "6039a4b7-302e-4e87-a845-d27256341108",
+      "name": "Sticky Note49",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3248,
+        -480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-3.5-sonnet",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        4032,
+        -16
+      ],
+      "id": "1790e3f2-d686-4273-af06-794e83a6b5ca",
+      "name": "OpenRouter Chat Model4",
+      "credentials": {
+        "openRouterApi": {
+          "id": "S5ht3ikb4AtpL1mj",
+          "name": "Open Router"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=THIS SHOULD BE THE OUTPUT:\n{\n  \"title\": \"Clear, informative headline about insurance trends (50-70 chars)\",\n  \"blog_sections\": [\n    {\n      \"heading\": \"Opening: Why Insurance Trends Matter\",\n      \"content\": \"<p>2–3 paragraphs of introduction with <p> and <strong> tags...</p>\"\n    },\n    {\n      \"heading\": \"The Evolution of Insurance Coverage in 2025\",\n      \"content\": \"<h2>The Evolution of Insurance Coverage in 2025</h2><p>150–250 words...</p>\"\n    },\n    {\n      \"heading\": \"Digital Transformation and Insurtech Innovations\",\n      \"content\": \"<h2>Digital Transformation and Insurtech Innovations</h2><p>150–250 words...</p>\"\n    },\n    {\n      \"heading\": \"Consumer Protection and Policy Transparency\",\n      \"content\": \"<h2>Consumer Protection and Policy Transparency</h2><p>150–250 words...</p>\"\n    },\n    {\n      \"heading\": \"Conclusion: Future Outlook\",\n      \"content\": \"<h2>Conclusion</h2><p>Key takeaways, next steps, strong closing...</p>\"\n    }\n  ],\n  \"image_prompt_hero\": \"Professional hero image for article top - insurance-themed, modern, trustworthy\",\n  \"image_prompt_mid\": \"Supporting visual for middle section - trend visualization, professional and clear\",\n  \"image_prompt_bottom\": \"Conclusive image for article ending - forward-looking insurance concept, professional\",\n  \"keyword\": \"Main SEO keyword extracted from insurance trends\",\n  \"meta_description\": \"Clear 150-160 character description highlighting article value for insurance consumers\"\n}\n\n\n\nYou are an experienced insurance industry professional reviewing content written by a junior colleague. Your job is to polish and enhance the article to make it sound authentic, conversational, and genuinely helpful to readers.\n\nCRITICAL: You must return VALID JSON with the following exact structure. Copy all fields from the input and ONLY humanize the \"blog\" field:\n\n{\n  \"title\": \"{{ $json.title }}\",\n  \"blog\": \"[HUMANIZED VERSION OF THE BLOG CONTENT HERE]\",\n  \"image_prompt_hero\": \"{{ $json.image_prompt_hero }}\",\n  \"image_prompt_mid\": \"{{ $json.image_prompt_mid }}\",\n  \"image_prompt_bottom\": \"{{ $json.image_prompt_bottom }}\",\n  \"keyword\": \"{{ $json.keyword }}\",\n  \"meta_description\": \"{{ $json.meta_description }}\"\n}\n\nHUMANIZATION REQUIREMENTS FOR THE BLOG FIELD ONLY:\n- Maintain the 1500-word length\n- Keep all SEO keywords and optimization intact\n- Vary sentence structure naturally (mix short, medium, and long sentences)\n- Add conversational transitions like \"Here's the thing,\" \"Let's be honest,\" \"Now, you might be wondering\"\n- Include practical examples and real-world scenarios\n- Use industry expertise phrases like \"In my years working with clients,\" \"What I've noticed,\" \"Based on industry data\"\n- Add natural flow with occasional tangential but relevant observations\n- Keep professional but approachable tone for insurance topics\n- Maintain HTML formatting (<h2>, <p>, <strong> tags)\n- Add depth by explaining \"why\" things matter to readers\n\nHUMANIZATION TECHNIQUES:\n- Use active voice predominantly, but occasionally passive where natural\n- Include rhetorical questions that insurance consumers actually ask\n- Add qualifying phrases: \"typically,\" \"in most cases,\" \"generally speaking\"\n- Use relatable comparisons and analogies\n- Show expertise through specific details, not just broad statements\n- Vary paragraph lengths (some short for emphasis, others more detailed)\n- Use transitional phrases between sections that feel organic\n\nAVOID:\n- Repetitive sentence patterns\n- Overly formal or robotic language\n- Perfect, polished prose (include natural conversational elements)\n- Generic statements without specific examples\n\nOriginal Content to Humanize:\nTitle: {{ $json.title }}\nBlog: {{ $json.blog }}\n\n⚠️ CRITICAL: Return ONLY valid JSON. Do NOT add markdown code blocks, explanations, or any text outside the JSON structure.\nThe \"blog\" field should contain the humanized HTML content with <h2>, <p>, <strong> tags.\nAll other fields (title, image_prompt_hero, image_prompt_mid, image_prompt_bottom, keyword, meta_description) must be copied exactly as provided.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        3952,
+        -336
+      ],
+      "id": "1704e207-431e-4461-9da1-c4747a298711",
+      "name": "Humanizing"
+    },
+    {
+      "parameters": {
+        "jsCode": "let raw = $json[\"output\"] || \"\";\n\n// Remove markdown code blocks\nraw = raw.replace(/```json|```/g, \"\").trim();\n\n// Try to parse once\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n  \n  // If parsed is still a string (double-encoded JSON), parse again\n  if (typeof parsed === 'string') {\n    parsed = JSON.parse(parsed);\n  }\n} catch (e) {\n  // If it's not JSON, treat it as HTML blog content\n  parsed = { \n    title: $input.first().json.title || \"Untitled\",\n    blog: raw,\n    image_prompt_hero: $input.first().json.image_prompt_hero || \"\",\n    image_prompt_mid: $input.first().json.image_prompt_mid || \"\",\n    image_prompt_bottom: $input.first().json.image_prompt_bottom || \"\",\n    keyword: $input.first().json.keyword || \"\",\n    meta_description: $input.first().json.meta_description || \"\"\n  };\n}\n\nreturn {\n  json: {\n    title: parsed.title || \"\",\n    blog: parsed.blog || \"\",\n    image_prompt_hero: parsed.image_prompt_hero || \"\",\n    image_prompt_mid: parsed.image_prompt_mid || \"\",\n    image_prompt_bottom: parsed.image_prompt_bottom || \"\",\n    keyword: parsed.keyword || \"\",\n    meta_description: parsed.meta_description || \"\"\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4304,
+        -336
+      ],
+      "id": "ab0854fb-8246-4500-ac99-6193c01858ca",
+      "name": "Parse Humanized Output"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Blog content validation failed: Content is less than 1000 characters or missing required fields. Please review the humanizing prompt."
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        4832,
+        -32
+      ],
+      "id": "0c643266-0c53-4c7f-aca0-991540d11c22",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-exp-image-generation",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-exp-image-generation"
+        },
+        "prompt": "={{ $('Final article text').item.json.image_prompt_hero }}",
+        "options": {
+          "sampleCount": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        5520,
+        -368
+      ],
+      "id": "d218628b-e4c7-4100-9e04-f1f42ff0b8c9",
+      "name": "Hero",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "zF6pgOx59RICmjYq",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-exp-image-generation",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-exp-image-generation"
+        },
+        "prompt": "={{ $('Final article text').item.json.image_prompt_mid }}",
+        "options": {
+          "sampleCount": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        5872,
+        -368
+      ],
+      "id": "2b687759-b41d-406b-b676-371720bf66b9",
+      "name": "Mid",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "zF6pgOx59RICmjYq",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-exp-image-generation",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-exp-image-generation"
+        },
+        "prompt": "={{ $('Final article text').item.json.image_prompt_bottom }}",
+        "options": {
+          "sampleCount": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        6224,
+        -368
+      ],
+      "id": "79900a97-4b49-4317-90c2-6547ce0cbd51",
+      "name": "End",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "zF6pgOx59RICmjYq",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://pink-skunk-944793.hostingersite.com/wp-json/wp/v2/media",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$('Wordpress connect').first().json.token}}"
+            },
+            {
+              "name": "Content-Disposition",
+              "value": "attachment; filename=\"featured-image.png\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "id": "62d33373-eda2-4a95-a297-4be86001467d",
+      "name": "Upload hero",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        5696,
+        -368
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://pink-skunk-944793.hostingersite.com/wp-json/wp/v2/media",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$('Wordpress connect').first().json.token}}"
+            },
+            {
+              "name": "Content-Disposition",
+              "value": "attachment; filename=\"featured-image.png\""
+            },
+            {
+              "name": "Content-Disposition",
+              "value": "attachment; filename=\"featured-image.png\""
+            },
+            {
+              "name": "Content-Disposition",
+              "value": "attachment; filename=\"featured-image.png\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "id": "c703c746-bdcf-4cb5-9c89-ce2cc80bba80",
+      "name": "Upload mid",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        6048,
+        -368
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://pink-skunk-944793.hostingersite.com/wp-json/wp/v2/media",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$('Wordpress connect').first().json.token}}"
+            },
+            {
+              "name": "Content-Disposition",
+              "value": "attachment; filename=\"featured-image.png\""
+            },
+            {
+              "name": "Content-Disposition",
+              "value": "attachment; filename=\"featured-image.png\""
+            },
+            {
+              "name": "Content-Disposition",
+              "value": "attachment; filename=\"featured-image.png\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "id": "f33f8bdc-1e88-4b5e-8e5c-297b46a9e0ba",
+      "name": "Upload end",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        6400,
+        -368
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get article data\nconst articleData = $('Final article text').first().json;\n\n// Get post data\nconst postData = $('Post on Wordpress').first().json;\n\n// Get uploaded images - these now exist because they ran sequentially\nconst heroUpload = $('Upload hero').first().json;\nconst midUpload = $('Upload mid').first().json;\nconst endUpload = $('Upload end').first().json;\n\nreturn [{\n  json: {\n    post_id: postData.id,\n    title: articleData.title,\n    blog: articleData.blog,\n    keyword: articleData.keyword,\n    meta_description: articleData.meta_description,\n    hero_image_id: heroUpload.id,\n    hero_image_url: heroUpload.guid.rendered,\n    mid_image_url: midUpload.guid.rendered,\n    end_image_url: endUpload.guid.rendered\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6576,
+        -368
+      ],
+      "id": "0a38fb1d-da03-4984-877b-d02649111f1e",
+      "name": "Merge data image"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\n\n// Ensure blogContent is a string\nlet blogContent = '';\nif (typeof data.blog === 'string') {\n  blogContent = data.blog;\n} else if (data.blog && typeof data.blog === 'object') {\n  blogContent = JSON.stringify(data.blog);\n} else {\n  blogContent = '<p>No content available</p>';\n}\n\n// Fix stray JSON artifacts\nblogContent = blogContent.replace(/\"}\\s*,\\s*{\"index\":\\d+.*?content\":\"/g, '');\n\n// --- Insert Hero image ABOVE Title and add Title ---\nlet titleBlock = '';\nif (data.title) {\n  titleBlock = `\n    <h1 class=\"post-title\">${data.title}</h1>\n    ${data.author || data.date ? `<div class=\"post-meta\">By ${data.author || 'Author'} / ${data.date || ''}</div>` : ''}\n  `;\n}\n\nif (data.hero_image_url) {\n  blogContent = `\n    <div class=\"hero-image\">\n      <img class=\"interactive-img\" src=\"${data.hero_image_url}\" alt=\"${data.title || 'Hero image'}\" />\n    </div>\\n\n    ${titleBlock}\n    ${blogContent}\n  `;\n}\n\n// Split by <h2> for mid and end images\nlet sections = blogContent.split('<h2>');\n\n// Insert Mid image\nif (sections.length > 3 && data.mid_image_url) {\n  const midPoint = Math.floor(sections.length / 2);\n  sections[midPoint] = sections[midPoint] + \n    `\\n<div class=\"mid-image\">\n      <img class=\"interactive-img\" src=\"${data.mid_image_url}\" alt=\"Analysis section image\" />\n    </div>\\n`;\n}\n\n// Insert End image\nif (sections.length > 2 && data.end_image_url) {\n  sections[sections.length - 1] = \n    `\\n<div class=\"end-image\">\n      <img class=\"interactive-img\" src=\"${data.end_image_url}\" alt=\"Closing section image\" />\n    </div>\\n` + \n    sections[sections.length - 1];\n}\n\nblogContent = sections.join('<h2>');\n\n// --- Generate Table of Contents ---\nlet toc = '';\nconst tocMatches = [...blogContent.matchAll(/<h2>(.*?)<\\/h2>/g)];\nif (tocMatches.length > 0) {\n  toc = `<nav class=\"toc\">\n    <h3 class=\"toc-title\">Table of Contents</h3>\n    <ul class=\"toc-list\">`;\n  \n  tocMatches.forEach((match, i) => {\n    const sectionTitle = match[1];\n    const anchor = `section-${i}`;\n    blogContent = blogContent.replace(match[0], `<h2 id=\"${anchor}\">${sectionTitle}</h2>`);\n    toc += `<li><a href=\"#${anchor}\">${sectionTitle}</a></li>`;\n  });\n  \n  toc += `</ul></nav>`;\n}\n\n// Wrap everything in a container + interactive image modal\nblogContent = `\n<div class=\"blog-container\">\n  ${toc}\n  ${blogContent}\n</div>\n\n<!-- Modal for interactive images -->\n<div id=\"imgModal\">\n  <span id=\"closeModal\">&times;</span>\n  <img id=\"modalImg\" />\n</div>\n\n<style>\n  .blog-container {\n    max-width: 800px;\n    margin: 0 auto;\n    padding: 40px 20px;\n  }\n  \n  /* Main Post Title */\n  .post-title {\n    font-size: 48px !important;\n    text-align: center;\n    margin: 30px 0 15px 0;\n    line-height: 1.2;\n    font-weight: 700;\n  }\n  \n  .post-meta {\n    text-align: center;\n    margin-bottom: 30px;\n  }\n  \n  /* Table of Contents Styling */\n  .toc {\n    padding: 24px 28px;\n    margin: 40px 0;\n  }\n  .toc-title {\n    margin: 0 0 16px 0;\n  }\n  .toc-list {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n  }\n  .toc-list li {\n    margin: 12px 0;\n    padding-left: 20px;\n    position: relative;\n  }\n  .toc-list li:before {\n    content: \"▸\";\n    position: absolute;\n    left: 0;\n  }\n  .toc-list a {\n    text-decoration: none;\n  }\n  \n  .hero-image img, .mid-image img, .end-image img {\n    width: 100%;\n    max-width: 900px;\n    border-radius: 12px;\n    margin: 30px auto;\n    display: block;\n  }\n  .interactive-img {\n    cursor: pointer;\n    transition: transform 0.3s ease, box-shadow 0.3s ease;\n  }\n  .interactive-img:hover {\n    transform: scale(1.02);\n    box-shadow: 0 8px 24px rgba(0,0,0,0.15);\n  }\n  \n  #imgModal {\n    display: none;\n    position: fixed;\n    z-index: 1000;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    background: rgba(0,0,0,0.9);\n    text-align: center;\n  }\n  #imgModal img {\n    margin: auto;\n    max-width: 90%;\n    max-height: 80vh;\n    border-radius: 12px;\n  }\n  #closeModal {\n    position: absolute;\n    top: 20px;\n    right: 40px;\n    font-size: 40px;\n    color: #fff;\n    cursor: pointer;\n  }\n</style>\n\n<script>\n  // Smooth scroll\n  document.querySelectorAll('.toc a').forEach(anchor => {\n    anchor.addEventListener('click', function(e) {\n      e.preventDefault();\n      document.querySelector(this.getAttribute('href')).scrollIntoView({\n        behavior: 'smooth'\n      });\n    });\n  });\n\n  // Modal image\n  const modal = document.getElementById('imgModal');\n  const modalImg = document.getElementById('modalImg');\n  const closeModal = document.getElementById('closeModal');\n  document.querySelectorAll('.interactive-img').forEach(img => {\n    img.addEventListener('click', () => {\n      modal.style.display = \"block\";\n      modalImg.src = img.src;\n    });\n  });\n  closeModal.onclick = () => modal.style.display = \"none\";\n  modal.onclick = (e) => { if(e.target === modal) modal.style.display = \"none\"; };\n</script>\n`;\n\nreturn [{\n  json: {\n    post_id: data.post_id,\n    blog: blogContent,\n    hero_image_id: data.hero_image_id\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6752,
+        -368
+      ],
+      "id": "77aa85d8-2dd2-45e2-84ca-1ac427585359",
+      "name": "Add image on text"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://pink-skunk-944793.hostingersite.com/wp-json/wp/v2/posts/{{ $json.post_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$('Wordpress connect').first().json.token}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $json.blog }}"
+            },
+            {
+              "name": "featured_media",
+              "value": "={{ $json.hero_image_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6928,
+        -368
+      ],
+      "id": "571ff72f-74d7-40ff-92a2-400b1aa289c8",
+      "name": "Update Wordpress"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPerplexity for AI model",
+        "height": 275,
+        "width": 212,
+        "color": 7
+      },
+      "id": "c1dc6a8b-e718-423d-ba4d-e668e1ae8b4a",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3968,
+        -96
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 371,
+        "width": 192,
+        "color": 7
+      },
+      "id": "44775c8b-8630-4abf-9dfc-920965cc68f3",
+      "name": "Sticky Note45",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4256,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Separate the block data for validation",
+        "height": 80,
+        "width": 166,
+        "color": 7
+      },
+      "id": "88ede09c-c26a-469a-b06c-65724135a87c",
+      "name": "Sticky Note29",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4272,
+        -480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## JWT Wordpress connection",
+        "height": 371,
+        "width": 257,
+        "color": 7
+      },
+      "id": "ba90e887-e6d7-4aa3-b04a-57cf5e863051",
+      "name": "Sticky Note46",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5040,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Post Final Article",
+        "height": 371,
+        "width": 161,
+        "color": 5
+      },
+      "id": "6d8a0dca-9541-4fd8-acb3-a33be5cf8141",
+      "name": "Sticky Note47",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5312,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get metadata from first item\nconst firstItem = $input.first().json;\n\nreturn {\n  json: {\n    title: firstItem.title,\n    blog: firstItem.blog,  // Changed from 'article' to 'blog'\n    keyword: firstItem.keyword,\n    meta_description: firstItem.meta_description,\n    image_prompt_hero: firstItem.image_prompt_hero,\n    image_prompt_mid: firstItem.image_prompt_mid,\n    image_prompt_bottom: firstItem.image_prompt_bottom\n  }\n};"
+      },
+      "id": "39839876-b87e-4813-8d01-198f736d0637",
+      "name": "Final article text",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        4864,
+        -336
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## Image Generation and posting",
+        "height": 371,
+        "width": 1041,
+        "color": 4
+      },
+      "id": "3d5dbe31-ce26-4f7d-a9f8-6f20b284992e",
+      "name": "Sticky Note48",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5488,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Merging image data and image data into final article",
+        "height": 371,
+        "width": 337,
+        "color": 6
+      },
+      "id": "377cdfba-dbb4-4bf0-836a-58d4a222725c",
+      "name": "Sticky Note50",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        6544,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Update wordpress",
+        "height": 371,
+        "width": 161,
+        "color": 2
+      },
+      "id": "50586360-13ba-47f4-8ccc-cd28765d0f41",
+      "name": "Sticky Note51",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        6896,
+        -544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Set ID for images and site",
+        "height": 371,
+        "width": 161,
+        "color": 3
+      },
+      "id": "5558f4b0-b54b-4598-9f80-ea8e2645050e",
+      "name": "Sticky Note52",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        7072,
+        -544
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "Humanizing",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Humanizing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check data consistency": {
+      "main": [
+        [
+          {
+            "node": "Final article text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wordpress connect": {
+      "main": [
+        [
+          {
+            "node": "Post on Wordpress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post on Wordpress": {
+      "main": [
+        [
+          {
+            "node": "Hero",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set image ID for the post": {
+      "main": [
+        []
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Call sub workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call sub workflow": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Humanizing",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Humanizing": {
+      "main": [
+        [
+          {
+            "node": "Parse Humanized Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Humanized Output": {
+      "main": [
+        [
+          {
+            "node": "Check data consistency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "End": {
+      "main": [
+        [
+          {
+            "node": "Upload end",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hero": {
+      "main": [
+        [
+          {
+            "node": "Upload hero",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mid": {
+      "main": [
+        [
+          {
+            "node": "Upload mid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload hero": {
+      "main": [
+        [
+          {
+            "node": "Mid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload mid": {
+      "main": [
+        [
+          {
+            "node": "End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload end": {
+      "main": [
+        [
+          {
+            "node": "Merge data image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge data image": {
+      "main": [
+        [
+          {
+            "node": "Add image on text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add image on text": {
+      "main": [
+        [
+          {
+            "node": "Update Wordpress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Wordpress": {
+      "main": [
+        [
+          {
+            "node": "Set image ID for the post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final article text": {
+      "main": [
+        [
+          {
+            "node": "Wordpress connect",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f2493ad7-52d2-4a5e-8f79-461ce7004904",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c9bae4eb2d6ecb137138d77b89149cd1e76743b8fad40c919e1baab7af1f0ee2"
+  },
+  "id": "FVMryXjpqgNV80ko",
+  "tags": []
+}

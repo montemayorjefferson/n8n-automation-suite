@@ -1,0 +1,1274 @@
+{
+  "name": "Kevin-Dashboard",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "calendarId": {
+          "__rl": true,
+          "value": "myfinanciallift@gmail.com",
+          "mode": "list",
+          "cachedResultName": "myfinanciallift@gmail.com"
+        },
+        "triggerOn": "eventCreated",
+        "options": {
+          "matchTerm": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTrigger",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        -300
+      ],
+      "id": "d2ea275d-3c9a-46b2-b716-5838d9b43819",
+      "name": "Google Calendar Trigger",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RAJNkrszguC0qPrz",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Fetch Data after user answer Response Form and Calendar\n",
+        "height": 640,
+        "width": 2320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -360,
+        -380
+      ],
+      "typeVersion": 1,
+      "id": "45d8bcd7-8622-4653-87f4-701639ef66c6",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Fetch Data after user answer Form\n\n",
+        "height": 480,
+        "width": 1960,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -360,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "9c862b68-0892-4aca-87b5-cba2104e702e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU",
+          "mode": "list",
+          "cachedResultName": "Financial Lift",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1645851841,
+          "mode": "list",
+          "cachedResultName": "Form Responses 3",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU/edit#gid=1645851841"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        540
+      ],
+      "id": "ff50e262-0b04-4d03-91dd-b7236035c472",
+      "name": "New Client Form Response",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "1J1lscoboCLFEB8c",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the form response data\nconst formData = items[0].json;\n\n// Helper function to clean and validate data\nfunction cleanData(value) {\n  if (!value || value === '') return '';\n  if (typeof value === 'string') {\n    return value.trim();\n  }\n  return String(value).trim();\n}\n\n// Helper function to extract numeric values\nfunction extractNumber(value) {\n  if (!value) return '';\n  const num = String(value).replace(/[$,\\s]/g, '');\n  return isNaN(parseFloat(num)) ? '' : parseFloat(num);\n}\n\n// Normalize keys (remove extra spaces, newlines, etc.)\nfunction normalizeKey(key) {\n  return key.replace(/\\s+/g, ' ').trim().toLowerCase();\n}\n\n// Build a normalized map of formData\nconst normalizedData = {};\nfor (const key in formData) {\n  normalizedData[normalizeKey(key)] = formData[key];\n}\n\n// Helper: find the first key that includes a keyword\nfunction findValueByKeyword(keyword) {\n  const lowerKeyword = keyword.toLowerCase();\n  for (const key in normalizedData) {\n    if (key.includes(lowerKeyword)) {\n      return normalizedData[key];\n    }\n  }\n  return '';\n}\n\n// Helper function to format address\nfunction formatAddress(data) {\n  const parts = [\n    cleanData(data['street address']),\n    cleanData(data['city']),\n    cleanData(data['state']),\n    cleanData(data['zip code'])\n  ].filter(part => part !== '');\n  \n  return parts.join(', ');\n}\n\n// Generate unique client ID\nconst now = new Date();\nconst timestamp = now.getTime();\nconst clientSequence = String(timestamp).slice(-6);\nconst clientId = `CLIENT_${clientSequence}`;\n\n// Extract and clean all data\nconst processedData = {\n  client_id: clientId,\n  full_name: cleanData(normalizedData['full name']),\n  email: cleanData(normalizedData['email']),\n  date_of_birth: cleanData(normalizedData['date of birth']),\n  address: formatAddress(normalizedData),\n  employment_status: cleanData(normalizedData['employment status']),\n  monthly_income: extractNumber(normalizedData['monthly income(approx)']),\n  credit_score: extractNumber(\n    normalizedData['credit score'] ||\n    normalizedData['estimated credit score (optional)']\n  ),\n  goal: cleanData(\n    normalizedData['primary credit repair goal'] ||\n    normalizedData['primary goal']\n  ),\n  status: 'New',\n\n  // ✅ FIX: Use keyword search for document fields\n  documents_id: cleanData(findValueByKeyword('valid id')),\n  documents_address: cleanData(findValueByKeyword('proof of address')),\n\n  last_updated: now.toLocaleDateString('en-US'),\n    booking_date: null,\n  next_step: 'Initial consultation',\n  notes: `Form submitted: ${normalizedData['timestamp']}. Digital signature: ${cleanData(normalizedData['digital signature'])}`,\n  \n  priority_level: extractNumber(normalizedData['credit score'] || normalizedData['estimated credit score (optional)']) < 580 ? 'HIGH' : 'NORMAL',\n  requires_callback: true,\n  sheet_creation_needed: true,\n\n  raw_timestamp: normalizedData['timestamp'],\n  raw_signature: cleanData(normalizedData['digital signature'])\n};\n\n// Data validation\nconst errors = [];\nif (!processedData.full_name) errors.push('Missing client name');\nif (!processedData.email || !processedData.email.includes('@')) errors.push('Invalid email');\nif (!processedData.credit_score) errors.push('Missing credit score');\n\n// Return processed data\nreturn [{\n  json: {\n    ...processedData,\n    validation_errors: errors,\n    processing_timestamp: now.toISOString(),\n    ready_for_dashboard: errors.length === 0\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -60,
+        540
+      ],
+      "id": "c9d1d0c3-73ea-44d8-be54-2f1ecc7a7cbe",
+      "name": "Process Client Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d27a4fe-7f35-4e5d-8e47-a203500bbe7b",
+              "leftValue": "={{ $json.ready_for_dashboard }}",
+              "rightValue": "=true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        120,
+        540
+      ],
+      "id": "306b18ce-44d7-471f-8888-1cb99e529667",
+      "name": "Validate Data Quality"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U",
+          "mode": "list",
+          "cachedResultName": "Kevin Dashboard",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 448255204,
+          "mode": "list",
+          "cachedResultName": "Dashboard",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U/edit#gid=448255204"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Client_ID": "={{ $json.client_id }}",
+            "Full_Name": "={{ $json.full_name }}",
+            "Email": "={{ $json.email }}",
+            "Date_of_Birth": "={{ $json.date_of_birth }}",
+            "Notes": "={{ $json.notes }}",
+            "Address": "={{ $json.address }}",
+            "Employment_Status": "={{ $json.employment_status }}",
+            "Monthly_Income": "={{ $json.monthly_income }}",
+            "Credit_Score": "={{ $json.credit_score }}",
+            "Goal": "={{ $json.goal }}",
+            "Documents_Address": "={{ $json.documents_address }}",
+            "Documents_ID": "={{ $json.documents_id }}",
+            "Status": "={{ $json.status }}",
+            "Last_Updated": "={{ $json.last_updated }}",
+            "Next_Step": "={{ $json.next_step }}",
+            "Booking Date": "={{ $json.booking_date }}"
+          },
+          "matchingColumns": [
+            "KEVIN'S CLIENT DASHBOARD"
+          ],
+          "schema": [
+            {
+              "id": "Client_ID",
+              "displayName": "Client_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Full_Name",
+              "displayName": "Full_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date_of_Birth",
+              "displayName": "Date_of_Birth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Employment_Status",
+              "displayName": "Employment_Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Monthly_Income",
+              "displayName": "Monthly_Income",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Credit_Score",
+              "displayName": "Credit_Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Goal",
+              "displayName": "Goal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Documents_ID",
+              "displayName": "Documents_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Documents_Address",
+              "displayName": "Documents_Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last_Updated",
+              "displayName": "Last_Updated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Next_Step",
+              "displayName": "Next_Step",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Booking Date",
+              "displayName": "Booking Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        340,
+        540
+      ],
+      "id": "4cfa0561-65ea-4b70-ad81-578e12af124b",
+      "name": "Add to Kevin Dashboard",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DK4LGbUY5DkL16gw",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "documentId": {
+          "__rl": true,
+          "value": "13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U",
+          "mode": "id"
+        },
+        "title": "={{ $json.Client_ID }}_{{ $json.Full_Name }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        560,
+        540
+      ],
+      "id": "0a28c784-682c-431c-8ee7-2f28b859031a",
+      "name": "Create Individual Client Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DK4LGbUY5DkL16gw",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "myfinanciallift@gmail.com",
+        "subject": "=🎉 NEW CLIENT:  {{ $('Process Client Data').item.json.full_name }} - {{ $json.priority_level === 'HIGH' ? '⚠️ HIGH PRIORITY' : '✅ Standard Priority' }}",
+        "message": "=<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"UTF-8\">\n  <style>\n    body {\n      font-family: 'Arial', sans-serif;\n      background-color: #f5f5f5;\n      margin: 0;\n      padding: 20px;\n      color: #333;\n    }\n    .container {\n      max-width: 600px;\n      margin: 0 auto;\n      background: #2C003E; /* dark purple */\n      border-radius: 10px;\n      overflow: hidden;\n      box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n    }\n    .header {\n      background: #3D014E; /* slightly lighter purple */\n      color: #fff;\n      text-align: center;\n      padding: 20px;\n    }\n    .header h2 {\n      margin: 0;\n      font-size: 22px;\n    }\n    .content {\n      padding: 20px;\n      background: #fff;\n      color: #2C003E;\n    }\n    .info {\n      margin-bottom: 12px;\n    }\n    .info strong {\n      display: inline-block;\n      width: 130px;\n      color: #3D014E;\n    }\n    .button {\n      display: inline-block;\n      margin-top: 20px;\n      background: #E6007E; /* magenta accent */\n      color: #fff;\n      padding: 12px 20px;\n      border-radius: 6px;\n      text-decoration: none;\n      font-weight: bold;\n    }\n    .button:hover {\n      background: #FF3399;\n    }\n    .footer {\n      text-align: center;\n      padding: 15px;\n      font-size: 12px;\n      color: #ccc;\n      background: #2C003E;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h2>New Client Added to My Financial Lift</h2>\n    </div>\n    <div class=\"content\">\n      <div class=\"info\"><strong>Name:</strong> {{ $('Process Client Data').item.json.full_name }}</div>\n      <div class=\"info\"><strong>Email:</strong> {{ $('Process Client Data').item.json.email }}</div>\n      <div class=\"info\"><strong>Credit Score:</strong> {{ $('Process Client Data').item.json.credit_score }}</div>\n      <div class=\"info\"><strong>Goal:</strong> {{ $('Process Client Data').item.json.goal }}</div>\n      <div class=\"info\"><strong>Income:</strong> {{ $('Process Client Data').item.json.monthly_income }}</div>\n      <div class=\"info\"><strong>Priority:</strong> {{ $('Process Client Data').item.json.priority_level }}</div>\n      <div class=\"info\"><strong>Client ID:</strong> {{ $('Process Client Data').item.json.client_id }}</div>\n      \n      <p style=\"text-align:center;\">\n        <a href=\"https://docs.google.com/spreadsheets/d/13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U/\" class=\"button\">\n          📊 View Client Dashboard\n        </a>\n      </p>\n    </div>\n    <div class=\"footer\">\n      © 2025 My Financial Lift – Automated Client Notification\n    </div>\n  </div>\n</body>\n</html>\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1260,
+        540
+      ],
+      "id": "0c01b39d-e46f-4501-906b-15d62193f6da",
+      "name": "Send a message",
+      "webhookId": "a600dbae-3e52-4055-9fc3-9b45db42ead6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BlqlY9NEir5J4nZT",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the raw description from Google Calendar\nconst desc = $json.description || \"\";\nconst lines = desc.split(\"\\n\").map(l => l.trim()).filter(l => l !== \"\");\n\n// Extract fields based on position\nconst name = lines[1] || \"\";\nconst email = lines[2] || \"\";\nconst phone = lines[3] || \"\";\n\n// Booking date & time (your existing logic)\nlet bookingDate = \"\";\nlet bookingTime = \"\";\nif ($json.start?.dateTime) {\n  const startDateTimeStr = $json.start.dateTime;\n  const dateTimeParts = startDateTimeStr.split('T');\n  const datePart = dateTimeParts[0];\n  const timePart = dateTimeParts[1];\n  const timeOnly = timePart.split('+')[0].split('-')[0].split('Z')[0];\n  const timeHourMin = timeOnly.substring(0, 5);\n  \n  bookingDate = datePart;\n  bookingTime = timeHourMin;\n} else if ($json.start?.date) {\n  bookingDate = $json.start.date;\n  bookingTime = \"All Day\";\n}\n\n// Enhanced return with dashboard integration fields\nreturn [\n  {\n    json: {\n      // Original booking data\n      timestamp: new Date().toISOString(),\n      fullName: name,\n      email: email,\n      phone: phone,\n      bookingDate: bookingDate,\n      bookingTime: bookingTime,\n      meetingType: $json.summary || \"\",\n      confirmationSent: \"No\",\n      \n      // Dashboard integration fields\n      client_lookup_email: email.toLowerCase().trim(),\n      appointment_datetime: `${bookingDate} ${bookingTime}`,\n      status_update: \"Appointment Scheduled\",\n      next_step_update: `Consultation on ${bookingDate} at ${bookingTime}`,\n      \n      // For client sheet updates\n      activity_log_entry: `${new Date().toLocaleDateString()}: Appointment scheduled for ${bookingDate} at ${bookingTime}`,\n      priority_flag: \"SCHEDULED\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -60,
+        -300
+      ],
+      "id": "1f5963e2-48d8-4e9c-87b4-9052fb1ede96",
+      "name": "Code - Process Booking Data"
+    },
+    {
+      "parameters": {
+        "url": "https://sheets.googleapis.com/v4/spreadsheets/13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U/values/Dashboard!A:Z",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "=valueRenderOption",
+              "value": "=UNFORMATTED_VALUE"
+            },
+            {
+              "name": "=dateTimeRenderOption",
+              "value": "=FORMATTED_STRING"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "=Accept",
+              "value": "=application/json"
+            },
+            {
+              "name": "=Content-Type",
+              "value": "=application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        380,
+        -300
+      ],
+      "id": "0d863a78-6335-4191-a7c7-b958183f7634",
+      "name": "Google Sheets - Lookup Client",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DK4LGbUY5DkL16gw",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "80785c6b-2762-4c14-bc36-e6cb67050bc9",
+              "leftValue": "={{ $json.clientFound }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        820,
+        -300
+      ],
+      "id": "18165c23-d8f3-4536-9f51-714b8d1b84b9",
+      "name": "IF - Client Exists Check"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Fixed Code - Safely get HTTP Request data\nconst httpData = $input.first();\nconst response = httpData.json;\nconst values = response.values || [];\n\n// Extract headers and data rows\nconst headers = values[0] || [];\nconst dataRows = values.slice(1);\n\n// Find email column index\nconst emailColumnIndex = headers.findIndex(h => \n  h && h.toString().toLowerCase().trim() === 'email'\n);\n\nif (emailColumnIndex === -1) {\n  throw new Error('Email column not found in Dashboard');\n}\n\n// For now, let's use a test email - you'll need to replace this with actual booking data\nconst clientEmail = $('Append Booking sheet').first().json.Email; // Replace this line when you connect to booking data\nlet matchingClient = null;\nlet rowIndex = -1;\n\n// Search through all rows\nfor (let i = 0; i < dataRows.length; i++) {\n  const row = dataRows[i];\n  const cellEmail = row[emailColumnIndex];\n  \n  if (cellEmail && \n      cellEmail.toString().toLowerCase().trim() === clientEmail.toLowerCase().trim()) {\n    \n    // Convert row array to object using headers\n    matchingClient = {};\n    headers.forEach((header, idx) => {\n      matchingClient[header] = row[idx] || '';\n    });\n    \n    rowIndex = i + 2; // +2 for 1-based indexing and header row\n    break;\n  }\n}\n\nreturn [{\n  json: {\n    clientFound: matchingClient !== null,\n    clientData: matchingClient || {},\n    rowIndex: rowIndex,\n    searchedEmail: clientEmail,\n    totalClientsChecked: dataRows.length,\n    emailColumnFound: emailColumnIndex !== -1,\n    headers: headers\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        580,
+        -300
+      ],
+      "id": "1c8131a1-40de-4b11-9a66-4da6f62e143c",
+      "name": "Code - Comparing Email Exist"
+    },
+    {
+      "parameters": {
+        "sendTo": "myfinanciallift@gmail.com",
+        "subject": "=🚨 NEW CLIENT BOOKED - Not in Dashboard",
+        "message": "=New Client Appointment Alert Someone not in your dashboard has booked an appointment:  Name: {{ $json.fullName }} Email: {{ $json.email }} Phone: {{ $json.phone }} Date: {{ $json.bookingDate }} Time: {{ $json.bookingTime }} Action Required: Add this client to your dashboard before the meeting.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1140,
+        0
+      ],
+      "id": "88fb7f7c-fcae-4a93-b9e5-891d086ecacb",
+      "name": "Send Alert Message",
+      "webhookId": "7ed1e58c-1cfa-464c-85da-64dc1f60cb24",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BlqlY9NEir5J4nZT",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U",
+          "mode": "list",
+          "cachedResultName": "Kevin Dashboard",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "=CLIENT_{{ $('IF - Client Exists Check').item.json.clientData.Client_ID }}_{{ $('IF - Client Exists Check').item.json.clientData.Full_Name }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "CLIENT PROFILE: JOHN DOE": "=Booking Date: {{ $json['Booking Date'] }}",
+            "row_number": 28
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "CLIENT PROFILE: JOHN DOE",
+              "displayName": "CLIENT PROFILE: JOHN DOE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1320,
+        -320
+      ],
+      "id": "2e3b6896-1855-4b39-beb8-91fb2bac8064",
+      "name": "Update Individual Client Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DK4LGbUY5DkL16gw",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U",
+          "mode": "list",
+          "cachedResultName": "Kevin Dashboard",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 448255204,
+          "mode": "list",
+          "cachedResultName": "Dashboard",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U/edit#gid=448255204"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Booking Date": "={{ $('Append Booking sheet').item.json['Booking Date'] }}\n",
+            "Client_ID": "={{ $json.clientData.Client_ID }}"
+          },
+          "matchingColumns": [
+            "Client_ID"
+          ],
+          "schema": [
+            {
+              "id": "Client_ID",
+              "displayName": "Client_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Full_Name",
+              "displayName": "Full_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Date_of_Birth",
+              "displayName": "Date_of_Birth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Employment_Status",
+              "displayName": "Employment_Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Monthly_Income",
+              "displayName": "Monthly_Income",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Credit_Score",
+              "displayName": "Credit_Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Goal",
+              "displayName": "Goal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Documents_ID",
+              "displayName": "Documents_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Documents_Address",
+              "displayName": "Documents_Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last_Updated",
+              "displayName": "Last_Updated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Next_Step",
+              "displayName": "Next_Step",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Booking Date",
+              "displayName": "Booking Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1120,
+        -320
+      ],
+      "id": "41ca746b-d281-4ce4-bf07-06e092cec314",
+      "name": "Update Dashboard",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DK4LGbUY5DkL16gw",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('IF - Client Exists Check').item.json.clientData.Email }}",
+        "subject": "=Appointment Confirmed - {{ $('IF - Client Exists Check').item.json.clientData['Booking Date'] }} \",\n    \"messageType\": \"html\",\n    \"message\": \"<h2>Your Financial Lift Consultation is Confirmed!</h2><p>Dear {{ $('IF - Client Exists Check').item.json.clientData.Full_Name }},</p><p>Your consultation appointment has been confirmed:</p><ul><li><strong>Date:</strong> {{ $('IF - Client Exists Check').item.json.clientData['Booking Date'] }}</li><li><strong>Time:</strong> </li><li><strong>Type:</strong> </li></ul><p>Kevin will review your information and be prepared to discuss your credit goals.</p><p>If you need to reschedule, please contact us immediately.</p><p>Best regards,<br>Financial Lift Team</p>",
+        "message": "=<h2>Your Financial Lift Consultation is Confirmed!</h2><p>Dear {{ $json.fullName }},</p><p>Your consultation appointment has been confirmed:</p><ul><li><strong>Date:</strong> {{ $json.bookingDate }}</li><li><strong>Time:</strong> {{ $json.bookingTime }}</li><li><strong>Type:</strong> {{ $json.meetingType }}</li></ul><p>Kevin will review your information and be prepared to discuss your credit goals.</p><p>If you need to reschedule, please contact us immediately.</p><p>Best regards,<br>Financial Lift Team</p>",
+        "options": {
+          "ccList": "myfinanciallift@gmail.com"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1540,
+        -320
+      ],
+      "id": "ee1eb983-3288-4590-b767-4b50d2179c96",
+      "name": "Send Confirm Message",
+      "webhookId": "a3cb4a5f-f358-4436-a6d2-cfff3a8041fe",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BlqlY9NEir5J4nZT",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/13KQaHZYJ_9hh8mao_EClclbSBxGlYKuA_pYx7Vsnz9U/values/{{ encodeURIComponent($('Create Individual Client Sheet').item.json.title) }}!A1:append",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "=valueInputOption",
+              "value": "=USER_ENTERED"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "=Content-Type",
+              "value": "=application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"values\": {{ JSON.stringify($('Populate data').item.json.sheetData) }}\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1000,
+        540
+      ],
+      "id": "13085dd2-29f6-41a0-b97e-83fc49034f2b",
+      "name": "Populate the Individual Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DK4LGbUY5DkL16gw",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const clientData = $('Process Client Data').first().json;\n\nreturn [{\n  json: {\n    sheetData: [\n      [\"CLIENT PROFILE: \" + clientData.full_name.toUpperCase(), \"\", \"\", \"\", \"\"],\n      [\"Email: \" + clientData.email + \" | Phone: \" + clientData.phone + \" | Status: \" + clientData.status, \"\", \"\", \"\", \"\"],\n      [\"\", \"\", \"\", \"\", \"\"],\n      [\"✅ Contact → 🔄 Review → ⏳ Analysis → ⏳ Plan → ⏳ Complete\", \"\", \"\", \"\", \"\"],\n      [\"\", \"\", \"\", \"\", \"\"],\n      [\"CLIENT DETAILS\", \"\", \"\", \"\", \"\"],\n      [\"Full Name:\", clientData.full_name, \"\", \"\", \"\"],\n      [\"Email:\", clientData.email, \"\", \"\", \"\"],\n      [\"Date of Birth:\", clientData.date_of_birth, \"\", \"\", \"\"],\n      [\"Address:\", clientData.address, \"\", \"\", \"\"],\n      [\"Employment:\", clientData.employment_status, \"\", \"\", \"\"],\n      [\"Monthly Income:\", \"$\" + clientData.monthly_income, \"\", \"\", \"\"],\n      [\"Credit Score:\", clientData.credit_score, \"\", \"\", \"\"],\n      [\"Goal:\", clientData.goal, \"\", \"\", \"\"],\n      [\"Client Since:\", clientData.last_updated, \"\", \"\", \"\"],\n      [\"Assigned To:\", \"Kevin\", \"\", \"\", \"\"],\n      [\"Priority Level:\", clientData.priority_level, \"\", \"\", \"\"],\n      [\"\", \"\", \"\", \"\", \"\"],\n      [\"ACTIVITY LOG\", \"\", \"\", \"\", \"\"],\n      [\"Date\", \"Type\", \"Status\", \"Action\", \"Notes\"],\n      [clientData.last_updated, \"Initial Contact\", \"New\", \"Form Submitted\", clientData.notes],\n      [\"\", \"\", \"\", \"\", \"\"],\n      [\"DOCUMENTS\", \"\", \"\", \"\", \"\"],\n      [\"Document Type\", \"Status\", \"Link\", \"\", \"\"],\n      [\"Valid ID\", \"✅ Received\", clientData.documents_id, \"\", \"\"],\n      [\"Proof of Address\", \"✅ Received\", clientData.documents_address, \"\", \"\"],\n      [\"\", \"\", \"\", \"\", \"\"],\n      [\"Booking date\", \"\", \"\", \"\"],\n      [\"NEXT STEPS\", \"\", \"\", \"\", \"\"],\n      [\"• Schedule initial consultation call\", \"\", \"\", \"\", \"\"],\n      [\"• Review credit report in detail\", \"\", \"\", \"\", \"\"],\n      [clientData.priority_level === 'HIGH' ? \"• URGENT: Address low credit score\" : \"• Create improvement plan\", \"\", \"\", \"\", \"\"]\n    ]\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        780,
+        540
+      ],
+      "id": "546f70d1-b2d6-47c9-8672-2e0d151d51e0",
+      "name": "Populate data"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU",
+          "mode": "list",
+          "cachedResultName": "Financial Lift",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1564940841,
+          "mode": "list",
+          "cachedResultName": "Booking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU/edit#gid=1564940841"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.timestamp }}",
+            "Email": "={{ $json.email }}",
+            "Full Name": "={{ $json.fullName }}",
+            "Phone": "={{ $json.phone }}",
+            "Booking Date": "={{ $json.bookingDate }}",
+            "Meeting Type": "={{ $json.meetingType }}",
+            "Booking Time": "={{ $json.bookingTime }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Booking Date",
+              "displayName": "Booking Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Booking Time",
+              "displayName": "Booking Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Meeting Type",
+              "displayName": "Meeting Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Confirmation Sent",
+              "displayName": "Confirmation Sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        160,
+        -300
+      ],
+      "id": "a1580310-d464-4c8d-953d-3b1aa15c936e",
+      "name": "Append Booking sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DK4LGbUY5DkL16gw",
+          "name": "MyFinancialLift"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU",
+          "mode": "list",
+          "cachedResultName": "Financial Lift",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1564940841,
+          "mode": "list",
+          "cachedResultName": "Booking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IgntdWHOGuoErKpGhjh_4bwUxd2FGVc6rldfwoiX-BU/edit#gid=1564940841"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -20
+      ],
+      "id": "33735478-96b4-4941-81fc-07ae3abdf905",
+      "name": "New Client Form Response1",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "1J1lscoboCLFEB8c",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Calendar Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Booking Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Client Form Response": {
+      "main": [
+        [
+          {
+            "node": "Process Client Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Client Data": {
+      "main": [
+        [
+          {
+            "node": "Validate Data Quality",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Data Quality": {
+      "main": [
+        [
+          {
+            "node": "Add to Kevin Dashboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to Kevin Dashboard": {
+      "main": [
+        [
+          {
+            "node": "Create Individual Client Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Individual Client Sheet": {
+      "main": [
+        [
+          {
+            "node": "Populate data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Booking Data": {
+      "main": [
+        [
+          {
+            "node": "Append Booking sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Lookup Client": {
+      "main": [
+        [
+          {
+            "node": "Code - Comparing Email Exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Client Exists Check": {
+      "main": [
+        [
+          {
+            "node": "Update Dashboard",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Alert Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Comparing Email Exist": {
+      "main": [
+        [
+          {
+            "node": "IF - Client Exists Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Individual Client Sheet": {
+      "main": [
+        [
+          {
+            "node": "Send Confirm Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Dashboard": {
+      "main": [
+        [
+          {
+            "node": "Update Individual Client Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Populate the Individual Sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Populate data": {
+      "main": [
+        [
+          {
+            "node": "Populate the Individual Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Booking sheet": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Lookup Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "52d9e80d-bc95-4a0d-bd31-75499f8a4122",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d65af402cf4618f1686cfbe2122be5f50c690cd4a445a551ee33fc92dd1f710d"
+  },
+  "id": "duXCTrGZNGMnUutz",
+  "tags": []
+}
